@@ -57,24 +57,24 @@ namespace POOProjet
     public class Town : Consumer
     {
         private string location;
-        private Meteo weather;
-        private int temperature;
+        public static Meteo Weather;
+        public int temperature;
         public Town(string name, Line inputLine, string location) : base(name, inputLine)
         {
             this.location = location;
-            this.weather = new Meteo(location);
-            this.temperature = this.weather.GetTemperature();
+            Weather = new Meteo(location);
+            temperature = Weather.GetTemperature();
         }
         public override void UpdateDemand()
         {
             this.powerDemand = generator.Next(80, 100);
-            this.weather.UpdateTemperature();
-            this.temperature = this.weather.GetTemperature();
-            if (this.temperature < 0)
+            //Weather.UpdateTemperature();
+            //temperature = Weather.GetTemperature();
+            if (temperature < 0)
             {
                 this.powerDemand = this.powerDemand * 5;
             }
-            else if (this.temperature < 10 && this.temperature >= 0 )
+            else if (temperature < 10 && temperature >= 0 )
             {
                 this.powerDemand = this.powerDemand * 3;
             }

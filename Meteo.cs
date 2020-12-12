@@ -8,9 +8,9 @@ namespace POOProjet
     {
         private int sun;
         private int wind;
-        private int temperature;
+        public int temperature;
         private string location;
-        public static Random generator = new Random();
+        public Random generator = new Random();
 
         public Meteo(string location)
         {
@@ -37,7 +37,7 @@ namespace POOProjet
         }
         public void UpdateTemperature()
         {
-            this.temperature = generator.Next(0, 30); //il y aurait 5 niveau
+            this.temperature = generator.Next(1, 30); //il y aurait 5 niveau!!!!!!! ne sutout pas mettre à 0 fait grosse erreur jsp pq
         }
         public int GetTemperature()
         {

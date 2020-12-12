@@ -35,8 +35,9 @@ namespace POOProjet
 
             this.NuclBxl = new NuclearPlant("Nucléaire Bxl", NuclDistBxl, 2);
             this.DistBxl = new DistributionNode("Distribution Bxl", NuclDistBxl);
-            this.Uccle = new Town("Uccle", LigneUccle, "Uccle");
             this.Wollu = new Town("Wollu", LigneWollu, "Wollu");
+            this.Uccle = new Town("Uccle", LigneUccle, "Uccle");
+            
             this.SinkBxl = new Sink("Dissipateur Bxl", LigneSink);
 
             DistBxl.AddOutputLine(LigneUccle);
