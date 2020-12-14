@@ -12,9 +12,13 @@ namespace POOProjet
         public double powerDemand;
         public double powerMissing;
         public static Random generator = new Random();
-        public Consumer(string name, Line inputLine)
+        public string location;
+        public Meteo weather;
+        public Consumer(string name, Line inputLine, string localisation)
         {
             this.name = name;
+            this.location = localisation;
+            this.weather = new Meteo(location);
             this.inputLine = inputLine;
             inputLine.SetNameOutNode(name);
             UpdateConsumption();//par défault l'initialise a random
@@ -25,17 +29,17 @@ namespace POOProjet
             { this.powerMissing = powerDemand - powerConsumed ; } //le manager devra gerrer ca pour que soit proche de 0
             
         }
-        public string getName()
+        public string GetName()
         {
             return name;
         }
-        public Line getLine()
+        public Line GetLine()
         {
             return inputLine;
         }
         public virtual void UpdateConsumption()
         {
-            this.powerConsumed = inputLine.getCurrentConsomation();
+            this.powerConsumed = inputLine.GetCurrentConsomation();
 
         }
         public virtual double GetConsumption()
@@ -57,31 +61,30 @@ namespace POOProjet
     }
     public class Town : Consumer
     {
-        private string location;
-        public static Meteo Weather;
-        public int temperature;
-        public Town(string name, Line inputLine, string location) : base(name, inputLine)
+        
+        //public Meteo weather;
+        private double temperature;
+        //public new string location;
+        public Town(string name, Line inputLine, string localisation) : base(name, inputLine, localisation)
         {
-            this.location = location;
-            Weather = new Meteo(location);
-            temperature = Weather.GetTemperature();
+            this.temperature = weather.GetTemperature();
         }
         public override void UpdateDemand()
         {
             this.powerDemand = generator.Next(80, 100);
-            //Weather.UpdateTemperature();
-            //emperature = Weather.GetTemperature();
+            this.weather.UpdateTemperature();
+            this.temperature = this.weather.GetTemperature();
             if (temperature < 0)
             {
-                this.powerDemand = this.powerDemand * 5;
+                this.powerDemand *= 5;
             }
             else if (temperature < 10 && temperature >= 0 )
             {
-                this.powerDemand = this.powerDemand * 3;
+                this.powerDemand *= 3;
             }
             else if (this.temperature >= 10 && this.temperature < 18)
             {
-                this.powerDemand = this.powerDemand * 2;
+                this.powerDemand *= 2;
             }
             inputLine.SetDemandPower(this.powerDemand);
 
@@ -89,12 +92,12 @@ namespace POOProjet
     }
     public class Entreprise : Consumer //on va dire que la météo n'influence pas
     {
-        public Entreprise(string name, Line inputLine) : base(name, inputLine) {}
+        public Entreprise(string name, Line inputLine, string localisation) : base(name, inputLine, localisation) {}
     }
 
     public class Sink : Consumer //on va dire que la météo n'influence pas
     {
-        public Sink(string name, Line inputLine) : base(name, inputLine) {
+        public Sink(string name, Line inputLine, string localisation) : base(name, inputLine, localisation) {
             this.powerDemand = 0;
         }
         public override void UpdateDemand()

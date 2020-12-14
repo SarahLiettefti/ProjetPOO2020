@@ -18,30 +18,30 @@ namespace POOProjet
             this.name = name;
             this.outputLine = outputLine;
             numberInLine = 0;
-            updatePowerOut();
+            UpdatePowerOut();
         }
-        public string getName()
+        public string GetName()
         {
             return name;
         }
-        public Line getLineout()
+        public Line GetLineout()
         {
             return this.outputLine;
         }
-        public double getNumberInLine()
+        public double GetNumberInLine()
         {
             return this.numberInLine;
         }
-        public double getPowerOut()
+        public double GetPowerOut()
         {
             return this.powerOut;
         }
-        public void updatePowerOut()
+        public void UpdatePowerOut()
         {
             this.powerOut = 0;
             foreach (Line inline in inputLines)
             {
-                this.powerOut = this.powerOut + inline.getCurrentConsomation();
+                this.powerOut += inline.GetCurrentConsomation();
             }
             outputLine.SetCurrentPower(this.powerOut);
         }
@@ -49,20 +49,20 @@ namespace POOProjet
         public void AddInputLine(Line input)
         {
             this.inputLines.Add(input);
-            this.numberInLine = this.numberInLine + 1;
-            this.powerOut = this.powerOut + input.getCurrentConsomation();
+            this.numberInLine ++ ;
+            this.powerOut += input.GetCurrentConsomation();
             input.SetNameOutNode(this.name);
         }
-        public void updatePowerDemand()//mets a jour les demandes, les lignes et les sorties
+        public void UpdatePowerDemand()//mets a jour les demandes, les lignes et les sorties
         {
-            this.powerDemand = outputLine.getDemandPower();
+            this.powerDemand = outputLine.GetDemandPower();
             foreach (Line inline in inputLines)
             {
                 inline.SetDemandPower(this.powerDemand/this.numberInLine);//ici divise équitablement
             }
         }
 
-        public double getPowerDemand()
+        public double GetPowerDemand()
         {
             //updatePowerDemand();
             return this.powerDemand;

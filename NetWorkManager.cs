@@ -35,10 +35,10 @@ namespace POOProjet
 
             this.NuclBxl = new NuclearPlant("Nucléaire Bxl", NuclDistBxl, 2);
             this.DistBxl = new DistributionNode("Distribution Bxl", NuclDistBxl);
-            this.Wollu = new Town("Wollu", LigneWollu, "Wollu");
+            this.Wollu = new Town("Wollu", LigneWollu, "Wolluwe");
             this.Uccle = new Town("Uccle", LigneUccle, "Uccle");
             
-            this.SinkBxl = new Sink("Dissipateur Bxl", LigneSink);
+            this.SinkBxl = new Sink("Dissipateur Bxl", LigneSink, "ici");
 
             DistBxl.AddOutputLine(LigneUccle);
             DistBxl.AddOutputLine(LigneWollu);
@@ -86,8 +86,8 @@ namespace POOProjet
             }
                 foreach (DistributionNode noeud in ToutDistNoeud)
             {
-                noeud.updatePowerIn();
-                noeud.updatePowerDemand();
+                noeud.UpdatePowerIn();
+                noeud.UpdatePowerDemand();
             }
 
             
@@ -98,9 +98,9 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (PowerPlant producteur in toutProducteur)
             {
-                Console.WriteLine("Nom : " + producteur.getName());
+                Console.WriteLine("Nom : " + producteur.GetName());
                 Console.WriteLine("Production : " + producteur.GetProduction() + " W");
-                Console.WriteLine("Ligne de sortie : " + producteur.getLine().getNameLine());
+                Console.WriteLine("Ligne de sortie : " + producteur.GetLine().GetNameLine());
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------");
                 //Console.WriteLine(String.Format("La centrale {0} produit {1} W et est relié à la ligne {2}", producteur.getName(), producteur.GetProduction(), producteur.getLine().getNameLine()));
             }
@@ -111,11 +111,11 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (DistributionNode noeud in ToutDistNoeud)
             {
-                Console.WriteLine("Nom : " + noeud.getName());
-                Console.WriteLine("Puissance reçue : " + noeud.getPowerIn() + " W");
-                Console.WriteLine("Demande : " + noeud.getPowerDemand() + " W");
-                Console.WriteLine("Ligne d'entrée : " + noeud.getLine().getNameLine());
-                Console.WriteLine("Nombre de lignes de sorties : " + noeud.getNumberOutLine());
+                Console.WriteLine("Nom : " + noeud.GetName());
+                Console.WriteLine("Puissance reçue : " + noeud.GetPowerIn() + " W");
+                Console.WriteLine("Demande : " + noeud.GetPowerDemand() + " W");
+                Console.WriteLine("Ligne d'entrée : " + noeud.GetLine().GetNameLine());
+                Console.WriteLine("Nombre de lignes de sorties : " + noeud.GetNumberOutLine());
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------");
                 //Console.WriteLine(String.Format("Le noeud de distribution {0} reçoit {1} W de puissance de {2}. Il a une demande de {3} W à distribué à {4} lignes", noeud.getName(), noeud.getPowerIn(), noeud.getLine().getNameLine(), noeud.getPowerDemand(), noeud.getNumberOutLine()));
             }
@@ -125,10 +125,10 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (Consumer consomateur in toutConsommateur)
             {
-                Console.WriteLine("Nom : " + consomateur.getName());
+                Console.WriteLine("Nom : " + consomateur.GetName());
                 Console.WriteLine("Demande : " + consomateur.GetDemand()+ " W");
                 Console.WriteLine("Consommation : " + consomateur.GetConsumption() + " W");
-                Console.WriteLine("Ligne d'entrée : " + consomateur.getLine().getNameLine());
+                Console.WriteLine("Ligne d'entrée : " + consomateur.GetLine().GetNameLine());
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------");
                 //Console.WriteLine(String.Format("La ville {0}, reçoit l'energie par {1} à une demande de {2}, consomme {3} ", consomateur.getName(), consomateur.getLine().getNameLine(), consomateur.GetDemand(), consomateur.GetConsumption()));
             }
@@ -138,10 +138,10 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (Sink sink in toutSink)
             {
-                Console.WriteLine("Nom : " + sink.getName());
+                Console.WriteLine("Nom : " + sink.GetName());
                 Console.WriteLine("Demande : " + sink.GetDemand() + " W");
                 Console.WriteLine("Consommation : " + sink.GetConsumption() + " W");
-                Console.WriteLine("Ligne d'entrée : " + sink.getLine().getNameLine());
+                Console.WriteLine("Ligne d'entrée : " + sink.GetLine().GetNameLine());
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------");
                 //Console.WriteLine(String.Format("Le dissipateur {0}, reçoit l'energie par {1} à une demande de {2}, consomme {3} ", sink.getName(), sink.getLine().getNameLine(), sink.GetDemand(), sink.GetConsumption()));
             }
@@ -151,10 +151,10 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (Line lignes in touteLignes)
             {
-                Console.WriteLine("Nom : " + lignes.getNameLine());
-                Console.WriteLine("Demande : " + lignes.getDemandPower() + " W");
-                Console.WriteLine("Consommation : " + lignes.getCurrentConsomation() + " W");
-                Console.WriteLine("Consommation maximale : " + lignes.getMaxPower() + " W");
+                Console.WriteLine("Nom : " + lignes.GetNameLine());
+                Console.WriteLine("Demande : " + lignes.GetDemandPower() + " W");
+                Console.WriteLine("Consommation : " + lignes.GetCurrentConsomation() + " W");
+                Console.WriteLine("Consommation maximale : " + lignes.GetMaxPower() + " W");
                 Console.WriteLine("-------------------------------------------------------------------------------------------------------");
                 //Console.WriteLine(String.Format("La ligne {0} transfert {1} W et a une demande de {2}", lignes.getNameLine(), lignes.getCurrentConsomation(), lignes.getDemandPower()));
             }
@@ -166,35 +166,35 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (PowerPlant producteur in toutProducteur)
             {
-                Console.WriteLine("Nom : " + producteur.getName() + "Production : " + producteur.GetProduction() + " W" );
+                Console.WriteLine("Nom : " + producteur.GetName() + "Production : " + producteur.GetProduction() + " W" );
             }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Les noeuds de distribution : ");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (DistributionNode noeud in ToutDistNoeud)
             {
-                Console.WriteLine("Nom : " + noeud.getName()+ " Puissance reçue : " + noeud.getPowerIn() + " W"+ " Demande : " + noeud.getPowerDemand() + " W"+ "  Nbr lignes de sorties : " + noeud.getNumberOutLine());
+                Console.WriteLine("Nom : " + noeud.GetName()+ " Puissance reçue : " + noeud.GetPowerIn() + " W"+ " Demande : " + noeud.GetPowerDemand() + " W"+ "  Nbr lignes de sorties : " + noeud.GetNumberOutLine());
                 }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Les consommateurs : ");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (Consumer consomateur in toutConsommateur)
             {
-                Console.WriteLine("Nom : " + consomateur.getName() + " Demande : " + consomateur.GetDemand() + " W" + " Consommation : " + consomateur.GetConsumption() + " W");
+                Console.WriteLine("Nom : " + consomateur.GetName() + " Demande : " + consomateur.GetDemand() + " W" + " Consommation : " + consomateur.GetConsumption() + " W");
             }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Les dissipateurs : ");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (Sink sink in toutSink)
             {
-                Console.WriteLine("Nom : " + sink.getName() + " Demande : " + sink.GetDemand() + " W" + " Consommation : " + sink.GetConsumption() + " W");
+                Console.WriteLine("Nom : " + sink.GetName() + " Demande : " + sink.GetDemand() + " W" + " Consommation : " + sink.GetConsumption() + " W");
             }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Les lignes : ");
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (Line lignes in touteLignes)
             {
-                Console.WriteLine("Nom : " + lignes.getNameLine() + " Consommation : " + lignes.getCurrentConsomation() + " W" + " Consommation maximale : " + lignes.getMaxPower() + " W");
+                Console.WriteLine("Nom : " + lignes.GetNameLine() + " Consommation : " + lignes.GetCurrentConsomation() + " W" + " Consommation maximale : " + lignes.GetMaxPower() + " W");
             }
             Console.WriteLine("********************************************************************************************************");
             
@@ -206,7 +206,7 @@ namespace POOProjet
             //Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (PowerPlant producteur in toutProducteur)
             {
-                Console.WriteLine( producteur.getName() + "------->"+ producteur.GetProduction() + " W ------->" + producteur.getLine().GetNameOutNode());
+                Console.WriteLine( producteur.GetName() + "------->"+ producteur.GetProduction() + " W ------->" + producteur.GetLine().GetNameOutNode());
             
             }
             Console.WriteLine(" ");
@@ -217,9 +217,9 @@ namespace POOProjet
             //Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (DistributionNode noeud in ToutDistNoeud)
             {
-                foreach(Line ligne in noeud.getoutLines())
+                foreach(Line ligne in noeud.GetoutLines())
                 {
-                    Console.WriteLine(noeud.getName() + "-------> demande " + ligne.getDemandPower() + " W ------->" + " consommation " + ligne.getCurrentConsomation() + " W ------->" + ligne.GetNameOutNode() );
+                    Console.WriteLine(noeud.GetName() + "-------> demande " + ligne.GetDemandPower() + " W ------->" + " consommation " + ligne.GetCurrentConsomation() + " W ------->" + ligne.GetNameOutNode() );
                 }
                 
             }

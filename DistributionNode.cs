@@ -20,56 +20,56 @@ namespace POOProjet
             this.inputLine = inputLine;
             inputLine.SetNameOutNode(name);
             numberOutLine = 0;
-            updatePowerIn();
+            UpdatePowerIn();
         }
 
-        public List<Line> getoutLines()
+        public List<Line> GetoutLines()
         {
             return outputLines;
         }
-        public string getName()
+        public string GetName()
         {
             return name;
         }
-        public Line getLine()
+        public Line GetLine()
         {
             return inputLine;
         }
-        public double getNumberOutLine()
+        public double GetNumberOutLine()
         {
             return this.numberOutLine;
         }
-        public double getPowerIn()
+        public double GetPowerIn()
         {
             return this.powerIn;
         }
-        public void updatePowerIn()
+        public void UpdatePowerIn()
         {
-            this.powerIn = inputLine.getCurrentConsomation();
+            this.powerIn = inputLine.GetCurrentConsomation();
         }
         
         public void AddOutputLine(Line output)
         {
             this.outputLines.Add(output);
-            this.numberOutLine = this.numberOutLine + 1;
-            this.powerDemand = this.powerDemand + output.getDemandPower();
+            this.numberOutLine += 1;
+            this.powerDemand +=  output.GetDemandPower();
             inputLine.SetDemandPower(this.powerDemand);
 
-            updatePowerOut();
+            UpdatePowerOut();
         }
-        public void updatePowerDemand()//mets a jour les demandes, les lignes et les sorties
+        public void UpdatePowerDemand()//mets a jour les demandes, les lignes et les sorties
         {
             this.powerDemand = 0;
             foreach (Line outline in outputLines)
             {
-                this.powerDemand = this.powerDemand + outline.getDemandPower();
+                this.powerDemand += outline.GetDemandPower();
             }
             inputLine.SetDemandPower(this.powerDemand);
-            updatePowerOut();
+            UpdatePowerOut();
         }
 
 
-        public void updatePowerOut()
+        public void UpdatePowerOut()
         {
             this.powerDifference = this.powerIn - this.powerDemand;//pour l'instant do'ffice positif
             double powerToGive = powerIn;
@@ -77,27 +77,27 @@ namespace POOProjet
             {               
                 if (powerToGive > 0)//il reste du courant a donner
                 {
-                    if (outputLine.getLigneDissipatrice()) //si c'est une ligne dissipatrice
+                    if (outputLine.GetLigneDissipatrice()) //si c'est une ligne dissipatrice
                     {
                         outputLine.SetCurrentPower(powerDifference);
-                        powerToGive = powerToGive - this.powerDifference;
+                        powerToGive -= this.powerDifference;
                     }
                     else
                     {
-                        outputLine.SetCurrentPower(outputLine.getDemandPower());
-                        powerToGive = powerToGive - outputLine.getDemandPower();
+                        outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                        powerToGive -= outputLine.GetDemandPower();
                     }
                 }
             }
         }
         
-        public double getPowerDemand()
+        public double GetPowerDemand()
         {
             //updatePowerDemand();
             return this.powerDemand;
         }
 
-        public void updatePowerOutCaca()//ancienen method peut peut-etre réutiliser des trucs
+        public void UpdatePowerOutCaca()//ancienen method peut peut-etre réutiliser des trucs
         {
             powerDifference = powerIn - powerDemand;
             double powerToGive = powerIn;
@@ -107,8 +107,8 @@ namespace POOProjet
                 {
                     if (powerToGive > 0)
                     {
-                        outputLine.SetCurrentPower(outputLine.getDemandPower());
-                        powerToGive = powerToGive - outputLine.getDemandPower();
+                        outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                        powerToGive -= outputLine.GetDemandPower();
                     }
 
                 }
@@ -117,15 +117,15 @@ namespace POOProjet
             {
                 foreach (Line outputLine in outputLines)//il faudrait faire une focntion qui dit a combiend de outline et relié a quel sorte de consomateur
                 {
-                    if ((outputLine.getDemandPower() == 0) && (powerToGive > 0))
+                    if ((outputLine.GetDemandPower() == 0) && (powerToGive > 0))
                     {
                         outputLine.SetCurrentPower(powerDifference);
-                        powerToGive = powerToGive - powerDifference;
+                        powerToGive -= powerDifference;
                     }
                     else if (powerToGive > 0)
                     {//pour l'instant mets que ça
-                        outputLine.SetCurrentPower(outputLine.getDemandPower());
-                        powerToGive = powerToGive - outputLine.getDemandPower();
+                        outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                        powerToGive -= outputLine.GetDemandPower();
                     }
                 }
             }
@@ -138,10 +138,10 @@ namespace POOProjet
                     foreach (Line outputLine in outputLines)//il faudrait faire une focntion qui dit a combiend de outline et relié a quel sorte de consomateur
                     {
                         double power = powerDifference / (numberOutLine - NotInfinate);
-                        if (power > outputLine.getDemandPower())
+                        if (power > outputLine.GetDemandPower())
                         {
-                            outputLine.SetCurrentPower(outputLine.getDemandPower());
-                            powerToGive = powerToGive - outputLine.getDemandPower();
+                            outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                            powerToGive -= outputLine.GetDemandPower();
                         }
                         else
                         { outputLine.SetCurrentPower(power); }
@@ -149,7 +149,7 @@ namespace POOProjet
                     if (powerToGive > 0)
                     { //a la fin de la boucle si il reste du courant a distribuer reclacule mais cette fois en divisante apr un plsu petit nombre
                         powerToGive = powerIn;
-                        NotInfinate = NotInfinate + 1;
+                        NotInfinate += 1;
                     }
                 }
             }

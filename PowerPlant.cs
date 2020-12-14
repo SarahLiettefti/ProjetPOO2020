@@ -25,11 +25,11 @@ namespace POOProjet
             coefStop = 1;
             UpdateLine();
         }
-        public string getName()
+        public string GetName()
         {
             return name;
         }
-        public Line getLine()
+        public Line GetLine()
         {
             return outputLine;
         }
@@ -41,9 +41,9 @@ namespace POOProjet
         public void UpdateLine()
         {
             
-            if (powerProduction > outputLine.getMaxPower())
+            if (powerProduction > outputLine.GetMaxPower())
             {
-                outputLine.SetCurrentPower(outputLine.getMaxPower());
+                outputLine.SetCurrentPower(outputLine.GetMaxPower());
                 //plus mettre un message d'erreur
             }
             else
@@ -66,16 +66,16 @@ namespace POOProjet
         public virtual void StopProduction()
         {
             this.coefStop = 0;
-            this.powerProduction = this.powerProduction * coefStop;
+            this.powerProduction *= coefStop;
         }
         public virtual void StartProduction()
         {
             this.coefStop = 1;
-            this.powerProduction = this.powerProduction * coefStop;
+            this.powerProduction *= coefStop;
         }
         public virtual void ChangeProduction(double coef)//si veut dimminuer production
         {
-            this.powerProduction = this.powerProduction * coef;
+            this.powerProduction *= coef;
         }
     }
     public class GazStation : PowerPlant //celle ci est totalement au hasard
@@ -87,9 +87,9 @@ namespace POOProjet
     }
     public class SolarPlant : PowerPlant
     {
-        private string location;
-        private Meteo weather;
-        private int sun;
+        public string location;
+        public Meteo weather;
+        private double sun;
         public SolarPlant(string name, Line outputLine, double coefCO2, string location) : base(name, outputLine, coefCO2)
         {
             this.location = location;
@@ -100,20 +100,22 @@ namespace POOProjet
         public override void UpdatePoduction()
         {
             this.powerProduction = generator.Next(80, 100) * coefStop;
+            this.weather.UpdateSun();
+            this.sun = this.weather.GetSun();
             if (sun > 2)
             {
-                powerProduction= powerProduction * 5;
+                powerProduction *= 5;
             }
             else if (sun < 2)
             {
-                powerProduction = powerProduction * 5;
+                powerProduction *= 5;
             }
             UpdateLine();
 
         }
         public override void ChangeProduction(double coef)//car ne peux changer que en diminuant
         {
-            Console.WriteLine(String.Format("La production de la central solaire {1} ne peut pas être réduite.", this.name));
+            Console.WriteLine(String.Format("La production de la central solaire {0} ne peut pas être réduite.", this.name));
         }
 
     }
@@ -133,7 +135,7 @@ namespace POOProjet
             {
                 if (this.count < 10) //normalment fait le get production toute les 10secondes don augmente le compteur a chaque fois
                 {
-                    this.coefStop = this.coefStop + 0.1;
+                    this.coefStop += 0.1;
                 }
                 else
                 {
@@ -141,13 +143,13 @@ namespace POOProjet
                     this.count = 0;
                     this.inprogress = 0;
                 }
-                this.powerProduction = this.powerProduction * coefStop;
+                this.powerProduction *= coefStop;
             }
             else if (inprogress == 2)//stoppage
             {
                 if (this.count < 10) //normalment fait le get production toute les 10secondes don augmente le compteur a chaque fois
                 {
-                    this.coefStop = this.coefStop - 0.1;
+                    this.coefStop -= 0.1;
                 }
                 else
                 {
@@ -155,7 +157,7 @@ namespace POOProjet
                     this.count = 0;
                     this.inprogress = 0;
                 }
-                this.powerProduction = this.powerProduction * coefStop;
+                this.powerProduction *= coefStop;
 
             }
             else
@@ -179,15 +181,15 @@ namespace POOProjet
         
         public override void ChangeProduction(double coef)//car ne peux changer que en diminuant
         {
-            Console.WriteLine(String.Format("La production de la central nucléaire {1} ne peut pas être réduite. Elle ne peut que etre stopper ou allumé", this.name));
+            Console.WriteLine(String.Format("La production de la central nucléaire {0} ne peut pas être réduite. Elle ne peut que etre stopper ou allumé", this.name));
         }
 
     }
     public class WindPlant : PowerPlant
     {
-        private string location;
-        private Meteo weather;
-        private int wind;
+        public string location;
+        public Meteo weather;
+        private double wind;
         public WindPlant(string name, Line outputLine, double coefCO2, string location) : base(name, outputLine, coefCO2)
         {
             this.location = location;
@@ -196,13 +198,16 @@ namespace POOProjet
         }
         public override void UpdatePoduction()
         {
+            this.powerProduction = generator.Next(80, 100) * coefStop;
+            this.weather.UpdateWind();
+            this.wind = this.weather.GetWind();
             if (wind > 2)
             {
-                powerProduction = powerProduction * 5;
+                powerProduction *= 5;
             }
             else if (wind < 2)
             {
-                powerProduction = powerProduction * 5;
+                powerProduction *= 1;
             }
             UpdateLine();
         }

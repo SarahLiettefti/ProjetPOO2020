@@ -6,13 +6,13 @@ namespace POOProjet
 {
     public class Meteo
     {
-        private int sun;
-        private int wind;
-        public int temperature;
-        private string location;
+        public double sun;
+        public double wind;
+        public double temperature;
+        public String location;
         public Random generator = new Random();
 
-        public Meteo(string location)
+        public Meteo(String location)
         {
             this.location = location;
             UpdateSun();
@@ -23,7 +23,7 @@ namespace POOProjet
         {
             this.sun = generator.Next(1, 5); //il y aurait 5 niveau
         }
-        public int GetSun()
+        public double GetSun()
         {
             return this.sun;
         }
@@ -31,7 +31,7 @@ namespace POOProjet
         {
             this.wind = generator.Next(1, 5); //il y aurait 5 niveau
         }
-        public int GetWind()
+        public double GetWind()
         {
             return this.wind;
         }
@@ -39,7 +39,7 @@ namespace POOProjet
         {
             this.temperature = generator.Next(1, 30); //il y aurait 5 niveau!!!!!!! ne sutout pas mettre à 0 fait grosse erreur jsp pq
         }
-        public int GetTemperature()
+        public double GetTemperature()
         {
             return this.temperature;
         }

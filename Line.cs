@@ -12,6 +12,7 @@ namespace POOProjet
         private double demandPower;
         private bool ligneDissipatrice;//relié a un dissipateur
         public string NameOutNode;
+        public string ErrorMessage; 
 
         public Line(string lineName, double maxPower)
         {
@@ -33,7 +34,7 @@ namespace POOProjet
             return this.NameOutNode;
         }
 
-        public bool getLigneDissipatrice()
+        public bool GetLigneDissipatrice()
         {
             return this.ligneDissipatrice;
         }
@@ -41,7 +42,7 @@ namespace POOProjet
         {
             this.currentPower = power; //est mis a jour dans les producteru, ce qu'ils envoient à la ligne
         }
-        public double getMaxPower()
+        public double GetMaxPower()
         {
             return this.maxPower;
         }
@@ -55,8 +56,18 @@ namespace POOProjet
             return String.Format("La ligne {0} a une puissance max de {1} et consomme {2}", this.lineName, this.maxPower, this.currentPower);
         }
 
-        public double getCurrentConsomation() => this.currentPower;
-        public string getNameLine() => lineName;
-        public double getDemandPower() => this.demandPower;
+        public double GetCurrentConsomation() => this.currentPower;
+        public string GetNameLine() => lineName;
+        public double GetDemandPower() => this.demandPower;
+
+        public void ChangeLineName(string newname)
+        {
+            this.lineName = newname;
+        }
+
+        public void ChangeMaxpower (double newmax)
+        {
+            this.maxPower = newmax;
+        }
     }
 }
