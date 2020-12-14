@@ -11,6 +11,7 @@ namespace POOProjet
         private double currentPower;
         private double demandPower;
         private bool ligneDissipatrice;//relié a un dissipateur
+        public string NameOutNode;
 
         public Line(string lineName, double maxPower)
         {
@@ -22,6 +23,14 @@ namespace POOProjet
         public void SetLigneDissipatrice()
         {
             this.ligneDissipatrice = true;
+        }
+        public void SetNameOutNode(string nomLigne)
+        {
+            this.NameOutNode = nomLigne;
+        }
+        public string GetNameOutNode()
+        {
+            return this.NameOutNode;
         }
 
         public bool getLigneDissipatrice()

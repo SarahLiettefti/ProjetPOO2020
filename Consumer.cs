@@ -16,6 +16,7 @@ namespace POOProjet
         {
             this.name = name;
             this.inputLine = inputLine;
+            inputLine.SetNameOutNode(name);
             UpdateConsumption();//par défault l'initialise a random
             UpdateDemand();
             if (powerConsumed >= powerDemand)
@@ -69,7 +70,7 @@ namespace POOProjet
         {
             this.powerDemand = generator.Next(80, 100);
             //Weather.UpdateTemperature();
-            //temperature = Weather.GetTemperature();
+            //emperature = Weather.GetTemperature();
             if (temperature < 0)
             {
                 this.powerDemand = this.powerDemand * 5;

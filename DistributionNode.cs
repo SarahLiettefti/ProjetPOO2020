@@ -18,10 +18,15 @@ namespace POOProjet
         {
             this.name = name;
             this.inputLine = inputLine;
+            inputLine.SetNameOutNode(name);
             numberOutLine = 0;
             updatePowerIn();
         }
 
+        public List<Line> getoutLines()
+        {
+            return outputLines;
+        }
         public string getName()
         {
             return name;

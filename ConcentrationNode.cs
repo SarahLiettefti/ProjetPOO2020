@@ -51,6 +51,7 @@ namespace POOProjet
             this.inputLines.Add(input);
             this.numberInLine = this.numberInLine + 1;
             this.powerOut = this.powerOut + input.getCurrentConsomation();
+            input.SetNameOutNode(this.name);
         }
         public void updatePowerDemand()//mets a jour les demandes, les lignes et les sorties
         {

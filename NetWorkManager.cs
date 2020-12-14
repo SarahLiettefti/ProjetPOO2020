@@ -42,7 +42,7 @@ namespace POOProjet
 
             DistBxl.AddOutputLine(LigneUccle);
             DistBxl.AddOutputLine(LigneWollu);
-            DistBxl.AddOutputLine(LigneSink);
+            DistBxl.AddOutputLine(LigneSink);  
 
             touteLignes.Add(LigneSink);
             touteLignes.Add(LigneUccle);
@@ -166,7 +166,7 @@ namespace POOProjet
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             foreach (PowerPlant producteur in toutProducteur)
             {
-                Console.WriteLine("Nom : " + producteur.getName() + "Production : " + producteur.GetProduction() + " W");
+                Console.WriteLine("Nom : " + producteur.getName() + "Production : " + producteur.GetProduction() + " W" );
             }
             Console.WriteLine("-------------------------------------------------------------------------------------------------------");
             Console.WriteLine("Les noeuds de distribution : ");
@@ -198,6 +198,31 @@ namespace POOProjet
             }
             Console.WriteLine("********************************************************************************************************");
             
+        }
+        public void AffichageGraphique()
+        {
+            //Console.WriteLine("Les centrales : ");
+            //Console.WriteLine("********************************************************************************************************");
+            //Console.WriteLine("-------------------------------------------------------------------------------------------------------");
+            foreach (PowerPlant producteur in toutProducteur)
+            {
+                Console.WriteLine( producteur.getName() + "------->"+ producteur.GetProduction() + " W ------->" + producteur.getLine().GetNameOutNode());
+            
+            }
+            Console.WriteLine(" ");
+            //Console.WriteLine("********************************************************************************************************");
+            //Console.WriteLine("-------------------------------------------------------------------------------------------------------");
+            //Console.WriteLine("Les noeuds de distribution : ");
+            //Console.WriteLine("********************************************************************************************************");
+            //Console.WriteLine("-------------------------------------------------------------------------------------------------------");
+            foreach (DistributionNode noeud in ToutDistNoeud)
+            {
+                foreach(Line ligne in noeud.getoutLines())
+                {
+                    Console.WriteLine(noeud.getName() + "-------> demande " + ligne.getDemandPower() + " W ------->" + " consommation " + ligne.getCurrentConsomation() + " W ------->" + ligne.GetNameOutNode() );
+                }
+                
+            }
         }
     }
 }
