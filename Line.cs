@@ -12,7 +12,8 @@ namespace POOProjet
         private double demandPower;
         private bool ligneDissipatrice;//relié a un dissipateur
         public string NameOutNode;
-        public string ErrorMessage; 
+        public string ErrorMessageDemand = "";
+        public string ErrorMessageCurrent = "";
 
         public Line(string lineName, double maxPower)
         {
@@ -40,7 +41,12 @@ namespace POOProjet
         }
         public void SetCurrentPower(double power)
         {
+           this.ErrorMessageCurrent = "";
             this.currentPower = power; //est mis a jour dans les producteru, ce qu'ils envoient à la ligne
+            if (this.currentPower > this.maxPower)
+            {
+                this.ErrorMessageCurrent = String.Format(" La ligne {0} est traversé par {1} W alors que ça puissance maximale est de {2} W .", this.lineName, this.currentPower, this.maxPower);
+            }
         }
         public double GetMaxPower()
         {
@@ -48,7 +54,24 @@ namespace POOProjet
         }
         public void SetDemandPower(double power)
         {
+            this.ErrorMessageDemand = "";
             this.demandPower = power; //est mis a jour dans les producteru, ce qu'ils envoient à la ligne
+            if (this.demandPower > this.maxPower)
+            {
+                this.ErrorMessageDemand =  String.Format(" {0} demande {1} W à {2} alors que ça puissance maximale est de {3} W . La demande a donc été mise au maximum de la ligne" , this.NameOutNode, this.demandPower, this.lineName, this.maxPower);
+                this.demandPower = this.maxPower;
+            }
+        }
+        public string GetMessage()
+        {
+            if (this.ErrorMessageCurrent == "" && this.ErrorMessageDemand == "")
+            {
+                return String.Format("La ligne {0} n'a pas de message d'erreur", this.lineName);
+            }
+            else
+            {
+                return this.ErrorMessageDemand + this.ErrorMessageCurrent;
+            }
         }
 
         public override string ToString()

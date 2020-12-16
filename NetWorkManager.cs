@@ -24,6 +24,10 @@ namespace POOProjet
         public List<PowerPlant> toutProducteur = new List<PowerPlant>();
         public List<Sink> toutSink = new List<Sink>();
         public List<DistributionNode> ToutDistNoeud = new List<DistributionNode>();
+
+        public double productionTot;
+        public double costTot;
+        public double CO2Tot;
         public NetWorkManager()
         {
             this.Message = "";
@@ -57,6 +61,7 @@ namespace POOProjet
             this.toutProducteur.Add(NuclBxl);
 
             this.ToutDistNoeud.Add(DistBxl);
+            UpdateProdTot();
 
         }
         
@@ -89,8 +94,9 @@ namespace POOProjet
                 noeud.UpdatePowerIn();
                 noeud.UpdatePowerDemand();
             }
+            UpdateProdTot();
 
-            
+
         }
         public void Affichage()
         {
@@ -222,6 +228,30 @@ namespace POOProjet
                     Console.WriteLine(noeud.GetName() + "-------> demande " + ligne.GetDemandPower() + " W ------->" + " consommation " + ligne.GetCurrentConsomation() + " W ------->" + ligne.GetNameOutNode() );
                 }
                 
+            }
+        }
+        public void AffichageProduction()
+        {
+            Console.WriteLine("Production des centrales : ");
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------");
+            foreach (PowerPlant producteur in toutProducteur)
+            {
+                Console.WriteLine("Nom : " + producteur.GetName() + "Production : " + producteur.GetProduction() + " W" + " Frais de production : " + producteur.GetCout() + " $ Emmission C02 : " + producteur.GetCO2());
+            }
+            Console.WriteLine("-------------------------------------------------------------------------------------------------------");
+            Console.WriteLine("Production total : " + this.productionTot + " W Cout total : " + this.costTot + " $ Emmission CO2 total : " + this.CO2Tot);
+        }
+        public void UpdateProdTot()//permet de calculer la production totale, le cout total et l'emmision CO2 tot
+        {
+            this.productionTot = 0;
+            this.costTot = 0;
+            this.CO2Tot = 0;
+            foreach (PowerPlant producteur in toutProducteur)
+            {
+                this.productionTot += producteur.GetProduction();
+                this.costTot += producteur.GetCout();
+
+                this.CO2Tot += producteur.GetCO2();
             }
         }
     }

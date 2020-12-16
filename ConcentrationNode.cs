@@ -12,10 +12,11 @@ namespace POOProjet
         public double powerOut;//=power in
         public double powerDemand;
         public double numberInLine;
-
+        public string ErrorMessage;
         public ConcentrationNode(string name, Line outputLine)
         {
             this.name = name;
+            this.ErrorMessage = "";
             this.outputLine = outputLine;
             numberInLine = 0;
             UpdatePowerOut();
@@ -58,7 +59,16 @@ namespace POOProjet
             this.powerDemand = outputLine.GetDemandPower();
             foreach (Line inline in inputLines)
             {
-                inline.SetDemandPower(this.powerDemand/this.numberInLine);//ici divise équitablement
+                inline.SetDemandPower(this.powerDemand*(inline.GetCurrentConsomation() / this.powerOut));//ici divise équitablement
+            }
+            this.ErrorMessage = "";
+            if (this.powerDemand > this.powerOut)
+            {
+                this.ErrorMessage = String.Format("Le noeud de concentration {0} a une demande ( {1} W) trop grande part rapport à ce quelle reçoit ({2} W)", this.name, this.powerDemand, this.powerOut);
+            }
+            else if (this.powerDemand < this.powerOut)
+            {
+                this.ErrorMessage = String.Format("Le noeud de concentration {0} reçoit plus ( {1} W) que ce qu'il demande ({2} W)", this.name, this.powerOut, this.powerDemand);
             }
         }
 
@@ -66,6 +76,17 @@ namespace POOProjet
         {
             //updatePowerDemand();
             return this.powerDemand;
+        }
+        public string GetMessage()
+        {
+            if (this.ErrorMessage == "")
+            {
+                return String.Format("Le noued de concentration {0} n'a pas de message d'erreur", this.name);
+            }
+            else
+            {
+                return this.ErrorMessage;
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ namespace POOProjet
         public static Random generator = new Random();
         public string location;
         public Meteo weather;
+        public string ErrorMessage;
         public Consumer(string name, Line inputLine, string localisation)
         {
             this.name = name;
@@ -40,7 +41,30 @@ namespace POOProjet
         public virtual void UpdateConsumption()
         {
             this.powerConsumed = inputLine.GetCurrentConsomation();
+            if (this.powerConsumed > this.powerDemand)
+            {
+                this.ErrorMessage = String.Format("Le consommateur {0} à une demande de {1} W mais reçoit {2}, ce qui ets trop.", this.name, this.powerDemand, this.powerConsumed);
+            }
+            else if (this.powerConsumed < this.powerDemand)
+            {
 
+                this.ErrorMessage = String.Format("Le consommateur {0} à une demande de {1} W mais reçoit {2}, ce qui n'est pas suffisant.", this.name, this.powerDemand, this.powerConsumed);
+            }
+            else
+            {
+                this.ErrorMessage = "";
+            }
+        }
+        public string GetMessage()
+        {
+            if (this.ErrorMessage == "")
+            {
+                return String.Format("Le consommateur {0} n'a pas de message d'erreurs", this.name);
+            }
+            else
+            {
+                return this.ErrorMessage;
+            }
         }
         public virtual double GetConsumption()
         {

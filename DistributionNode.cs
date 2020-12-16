@@ -13,6 +13,7 @@ namespace POOProjet
         public double powerDemand;
         public double powerDifference;
         public double numberOutLine;
+        public string ErrorMessage;
 
         public DistributionNode(string name, Line inputLine)
         {
@@ -71,7 +72,18 @@ namespace POOProjet
 
         public void UpdatePowerOut()
         {
-            this.powerDifference = this.powerIn - this.powerDemand;//pour l'instant do'ffice positif
+            this.ErrorMessage = "";
+            this.powerDifference = this.powerIn - this.powerDemand;//pour l'instant d'office positif
+            if (this.powerIn > this.powerDemand)
+            {
+                this.ErrorMessage = String.Format("Le noeud de distribution {0} reçoit {1} W de la lignes {2} alors qu'il a une demande de {3} W. C'est trop de {4} W.", this.name, this.powerIn, this.inputLine.GetNameLine(), this.powerDemand, this.powerDifference);
+
+            }
+            else if (this.powerIn < this.powerDemand)
+            {
+                this.ErrorMessage = String.Format("Le noeud de distribution {0} reçoit {1} W de la lignes {2} alors qu'il a une demande de {3} W. Ce n'est pas assez, il manque {4} W.", this.name, this.powerIn, this.inputLine.GetNameLine(), this.powerDemand, this.powerDifference);
+
+            }
             double powerToGive = powerIn;
             foreach (Line outputLine in outputLines)
             {               
@@ -90,7 +102,17 @@ namespace POOProjet
                 }
             }
         }
-        
+        public string GetMessage()
+        {
+            if (this.ErrorMessage == "" )
+            {
+                return String.Format("Le noued de distribution {0} n'a pas de message d'erreur", this.name);
+            }
+            else
+            {
+                return this.ErrorMessage;
+            }
+        }
         public double GetPowerDemand()
         {
             //updatePowerDemand();

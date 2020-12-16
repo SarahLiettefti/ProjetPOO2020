@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace POOProjet
+namespace POOProjet 
+    //peut-etre ne pas mettre la météo dedans car la production va changer toute seul celon la météo.
 {
     public class PowerPlant//héritage plus interressant que interface car peu redéfinir les méthodes et utiliser la méthode venant de la clase mere
     {
@@ -14,11 +15,13 @@ namespace POOProjet
         public static Random generator = new Random();
         public double coefStop;
         public Market Bourse = new Market();
-        //private double prodtot;
+        public string ErrorMessage;
+
         public PowerPlant(string name, Line outputLine, double coefCO2)
         {
             this.name = name;
-            this.outputLine = outputLine;
+            this.ErrorMessage = ""
+;            this.outputLine = outputLine;
             this.coefCO2 = coefCO2;
             this.coefCout = Bourse.GetPrixCarburant();
             UpdatePoduction();//par défault l'initialise a random
@@ -40,15 +43,24 @@ namespace POOProjet
         }
         public void UpdateLine()
         {
-            
+            this.ErrorMessage = "";
             if (powerProduction > outputLine.GetMaxPower())
             {
-                outputLine.SetCurrentPower(outputLine.GetMaxPower());
-                //plus mettre un message d'erreur
+                this.ErrorMessage = String.Format(" Le producteur {0} produit {1} W alors que la puissance maximale de la ligne {2} est de {3} W.", this.name, this.powerProduction, this.outputLine, this.outputLine.GetMaxPower());
+            }
+
+            outputLine.SetCurrentPower(powerProduction);
+
+        }
+        public string GetMessage()
+        {
+            if (this.ErrorMessage == "" )
+            {
+                return String.Format("Le producteur {0} n'a pas de message d'erreur", this.name);
             }
             else
             {
-                outputLine.SetCurrentPower(powerProduction);
+                return this.ErrorMessage;
             }
         }
         public virtual double GetProduction()
