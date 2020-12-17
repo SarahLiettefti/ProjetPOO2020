@@ -127,6 +127,19 @@ namespace POOProjet
             }
             UpdateProdTot();
             UpdateConsommation();
+            foreach (DistributionNode noeud in toutDistNoeud)
+            {
+                noeud.UpdatePowerIn();
+                noeud.UpdatePowerDemand();
+                
+            }
+            foreach (ConcentrationNode noeud in toutConcNoeud)
+            {
+                noeud.UpdatePowerOut();
+                noeud.UpdatePowerDemand();
+            }
+            UpdateProdTot();
+            UpdateConsommation();
 
             foreach (Sink sink in toutSink)
             {
@@ -177,6 +190,16 @@ namespace POOProjet
         public double GetCoutTotal() => this.costTot;
         public double GetCO2Total() => this.CO2Tot;
         public double GetConsommationTotal() => this.consommationTot;
+        public void GetProducteurs()
+        {
+            int i = 0;
+            Console.WriteLine("\ta - Annuler");
+            foreach (PowerPlant producteur in toutProducteur)
+            {
+                Console.WriteLine(String.Format("\t{0} - {1}",i , producteur.GetName()));
+                i++;
+            }
+        }
         public void Affichage()
         {
             Console.WriteLine("Les centrales : ");
@@ -252,6 +275,7 @@ namespace POOProjet
 
         public void Show()
         {
+            //UpdateNetWork();
             UpdateNetWork();
             Affichage();
 
@@ -263,6 +287,7 @@ namespace POOProjet
                 Console.WriteLine("\tp - Display network production");
                 Console.WriteLine("\tc - Display network consommation");
                 Console.WriteLine("\tm - Display Error Messages");
+                Console.WriteLine("\ta - Arreter un producteur");
                 Console.WriteLine("\ts - Stop Simulation");
 
                 switch (Console.ReadLine())
@@ -280,6 +305,24 @@ namespace POOProjet
                     case "m":
                         GetMessage();
                         break;
+                    case "a":
+                        GetProducteurs();
+                        String e = Console.ReadLine();
+                        if (e == "a")
+                        {
+                            break;
+                        }
+                        else { 
+                            int x = Int32.Parse(e);
+                            //Console.WriteLine(toutProducteur[x].GetName()); // affiche 
+                            toutProducteur[x].StopProduction();//marceh pas encore, surement erreur de fonction
+                            if (toutProducteur[x].type== "Centrale Nucléaire")
+                            {
+                                Console.WriteLine("La centrale =nucléaire va mettre du temps à s'arreter");
+                            }
+                            break;
+                        }
+                        
                     case "s":
                         this.state = false;
                         break;

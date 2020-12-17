@@ -16,12 +16,13 @@ namespace POOProjet
         public double coefStop;
         public Market Bourse = new Market();
         public string ErrorMessage;
+        public string type;
 
         public PowerPlant(string name, Line outputLine, double coefCO2)
         {
             this.name = name;
-            this.ErrorMessage = ""
-;            this.outputLine = outputLine;
+            this.ErrorMessage = "";
+            this.outputLine = outputLine;
             this.coefCO2 = coefCO2;
             this.coefCout = Bourse.GetPrixCarburant();
             UpdatePoduction();//par défault l'initialise a random
@@ -94,6 +95,7 @@ namespace POOProjet
     {
         public GazStation(string name, Line outputLine, double coefCO2) : base (name, outputLine, coefCO2)
         {
+            this.type = "Station à gaz";
         }
         
     }
@@ -107,6 +109,7 @@ namespace POOProjet
             this.location = location;
             weather = new Meteo(location);
             sun = weather.GetSun();
+            this.type = "Station Solaire";
         }
         
         public override void UpdatePoduction()
@@ -138,6 +141,7 @@ namespace POOProjet
         public NuclearPlant(string name, Line outputLine, double coefCO2) : base(name, outputLine, coefCO2)
         {
             this.count = 0;
+            this.type = "Centrale Nucléaire";
             this.inprogress = 0;//on va dire que quand initialise ça a déja démarré
         }
         public override void UpdatePoduction()//car constant
@@ -206,6 +210,7 @@ namespace POOProjet
         {
             this.location = location;
             weather = new Meteo(location);
+            this.type = "Eolienne";
             wind = weather.GetWind();
         }
         public override void UpdatePoduction()
@@ -230,6 +235,7 @@ namespace POOProjet
     {
         public AbroadPurchase(string name, Line outputLine, double coefCO2) : base(name, outputLine, coefCO2)
         {
+            this.type = "Vente à l'étranger";
         }
         //faire en sorte que ça réponde à la demande pour compenser
     }

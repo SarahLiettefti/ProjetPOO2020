@@ -43,7 +43,7 @@ namespace POOProjet
             this.powerConsumed = inputLine.GetCurrentConsomation();
             if (this.powerConsumed > this.powerDemand)
             {
-                this.ErrorMessage = String.Format("Le consommateur {0} à une demande de {1} W mais reçoit {2}, ce qui ets trop.", this.name, this.powerDemand, this.powerConsumed);
+                this.ErrorMessage = String.Format("Le consommateur {0} à une demande de {1} W mais reçoit {2}, ce qui est trop.", this.name, this.powerDemand, this.powerConsumed);
             }
             else if (this.powerConsumed < this.powerDemand)
             {
