@@ -6,7 +6,7 @@ namespace POOProjet
 {
     public class Market
     {
-        private double prixAchat; //"le prix du W" acheté à l'étranger
+        private double prixAchat; //"le prix du W acheté à l'étranger
         private double prixVente; //prix de vente vers l'étranger
         private double prixCarburant;
         public static Random generator = new Random();

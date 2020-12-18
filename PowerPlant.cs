@@ -180,6 +180,10 @@ namespace POOProjet
             {
                
             }
+            if (this.powerProduction < 1)
+            {
+                this.powerProduction = 0;
+            }
             UpdateLine();
         }
         public override void StartProduction()

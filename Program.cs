@@ -7,15 +7,6 @@ namespace POOProjet
     {
         static void Main(string[] args)
         {
-            //NetWorkManager Bruxelles = new NetWorkManager();
-            //Bruxelles.AffichageMini();
-            //Bruxelles.AffichageProduction();
-            //System.Threading.Thread.Sleep(5000);
-            //Bruxelles.UpdateNetWork();
-            //Bruxelles.AffichageMini();
-            //Bruxelles.AffichageProduction();
-
-
             //Création des lignes
             Line NuclDistBxl = new Line("NuclDisBxl", 3000);
             Line LigneUccle = new Line("LigneUccle", 3000);

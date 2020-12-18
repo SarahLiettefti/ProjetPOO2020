@@ -318,7 +318,7 @@ namespace POOProjet
                             toutProducteur[x].StopProduction();//marceh pas encore, surement erreur de fonction
                             if (toutProducteur[x].type== "Centrale Nucléaire")
                             {
-                                Console.WriteLine("La centrale =nucléaire va mettre du temps à s'arreter");
+                                Console.WriteLine("La centrale nucléaire va mettre du temps à s'arreter");
                             }
                             break;
                         }

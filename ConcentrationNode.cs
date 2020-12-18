@@ -74,7 +74,6 @@ namespace POOProjet
 
         public double GetPowerDemand()
         {
-            //updatePowerDemand();
             return this.powerDemand;
         }
         public string GetMessage()
