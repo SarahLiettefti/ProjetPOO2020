@@ -193,6 +193,7 @@ namespace POOProjet
         public void GetProducteurs()
         {
             int i = 0;
+            Console.WriteLine("Choisisez un producteur");
             Console.WriteLine("\ta - Annuler");
             foreach (PowerPlant producteur in toutProducteur)
             {
@@ -288,6 +289,8 @@ namespace POOProjet
                 Console.WriteLine("\tc - Display network consommation");
                 Console.WriteLine("\tm - Display Error Messages");
                 Console.WriteLine("\ta - Arreter un producteur");
+                Console.WriteLine("\td - Démarrer un producteur");
+                Console.WriteLine("\tv - Modification de production");
                 Console.WriteLine("\ts - Stop Simulation");
 
                 switch (Console.ReadLine())
@@ -314,15 +317,50 @@ namespace POOProjet
                         }
                         else { 
                             int x = Int32.Parse(e);
-                            //Console.WriteLine(toutProducteur[x].GetName()); // affiche 
-                            toutProducteur[x].StopProduction();//marceh pas encore, surement erreur de fonction
+                            toutProducteur[x].StopProduction();
                             if (toutProducteur[x].type== "Centrale Nucléaire")
                             {
                                 Console.WriteLine("La centrale nucléaire va mettre du temps à s'arreter");
                             }
                             break;
                         }
-                        
+                    case "d":
+                        GetProducteurs();
+                        String l = Console.ReadLine();
+                        if (l == "a")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            int x = Int32.Parse(l);
+                            toutProducteur[x].StartProduction();
+                            if (toutProducteur[x].type == "Centrale Nucléaire")
+                            {
+                                Console.WriteLine("La centrale nucléaire va mettre du temps à démarrer");
+                            }
+                            break;
+                        }
+                    case "v":
+                        Console.WriteLine("Attention, la production des centrale nucléaire, des parcs éoliens et panneaux solaire ne peuvent être modifier");
+                        GetProducteurs();
+                        String ll = Console.ReadLine();
+                        if (ll == "a")
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            int x = Int32.Parse(ll);
+                            Console.WriteLine("De quel coéfficient voulez vous changer la production? utiliser le virgule et pas le pooint");
+                            double c = Convert.ToDouble(Console.ReadLine());
+                            toutProducteur[x].ChangeProduction(c);
+                            if (toutProducteur[x].type == "Centrale Nucléaire")
+                            {
+                                Console.WriteLine("La production de la centrale nucléaire ne peut pas être changé");
+                            }
+                            break;
+                        }
                     case "s":
                         this.state = false;
                         break;

@@ -7,6 +7,7 @@ namespace POOProjet
     {
         static void Main(string[] args)
         {
+            //****Réseau1****
             //Création des lignes
             Line NuclDistBxl = new Line("NuclDisBxl", 3000);
             Line LigneUccle = new Line("LigneUccle", 3000);
@@ -38,13 +39,15 @@ namespace POOProjet
             //Region.SetTouteListe(LigneRéseau1, ConsoRéseau1, ProducteurRéseau1, SinkRéseau1, DistNoeudRéseau1, ConcNoeudRéseau1);
             //Region.Show();
 
-            //ESSAIE RéSEAU 2
+            //****RéSEAU 2****
             Line ConcDist = new Line("Concentration-Distribution", 3000);
             Line NuclConcBxl21 = new Line("NuclConBxl", 3000);
             Line NuclConcBxl22 = new Line("NuclConcBxl", 3000);
 
             NuclearPlant NuclBxl21 = new NuclearPlant("Nucléaire Bxl", NuclConcBxl21, 2);
-            NuclearPlant NuclBxl22 = new NuclearPlant("Nucléaire Bxl", NuclConcBxl22, 2);
+            //NuclearPlant NuclBxl22 = new NuclearPlant("Nucléaire Bxl", NuclConcBxl22, 2);
+            GazStation StationGaz = new GazStation("Station Gaz", NuclConcBxl22, 2);
+            //WindPlant EolienBxl = new WindPlant("Parc éolien Bxl", NuclConcBxl22, 2, "Bruxelles");
             DistributionNode DistBxl2 = new DistributionNode("Distribution Bxl", ConcDist);
             ConcentrationNode ConcBxl = new ConcentrationNode("Concentration Bxl", ConcDist);
 
@@ -56,7 +59,8 @@ namespace POOProjet
 
             List<Line> LigneRéseau2 = new List<Line> { LigneUccle, LigneWollu, LigneSink, ConcDist , NuclConcBxl21, NuclConcBxl22 };
             List<Consumer> ConsoRéseau2 = new List<Consumer> { Uccle, Wollu }; //ne pas y mettre les Sink
-            List<PowerPlant> ProducteurRéseau2 = new List<PowerPlant> { NuclBxl21, NuclBxl22 };
+            //List<PowerPlant> ProducteurRéseau2 = new List<PowerPlant> { NuclBxl21, EolienBxl };
+            List<PowerPlant> ProducteurRéseau2 = new List<PowerPlant> { NuclBxl21, StationGaz };
             List<Sink> SinkRéseau2 = new List<Sink> { SinkBxl };
             List<DistributionNode> DistNoeudRéseau2 = new List<DistributionNode> { DistBxl2 };
             List<ConcentrationNode> ConcNoeudRéseau2 = new List<ConcentrationNode> { ConcBxl };

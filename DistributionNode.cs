@@ -60,6 +60,7 @@ namespace POOProjet
         }
         public void UpdatePowerDemand()//mets a jour les demandes, les lignes et les sorties
         {
+            
             this.powerDemand = 0;
             foreach (Line outline in outputLines)
             {
@@ -70,34 +71,153 @@ namespace POOProjet
         }
 
 
-        public void UpdatePowerOut()
+        public void UpdatePowerOut()//******************************Le chercheur va devoir modifier cette fonction pour que le noeud distribue le courant comme il veut 
         {
+            UpdatePowerIn();
             this.ErrorMessage = "";
-            this.powerDifference = this.powerIn - this.powerDemand;//pour l'instant d'office positif
             if (this.powerIn > this.powerDemand)
             {
+                this.powerDifference = this.powerIn - this.powerDemand;
                 this.ErrorMessage = String.Format("Le noeud de distribution {0} reçoit {1} W de la lignes {2} alors qu'il a une demande de {3} W. C'est trop de {4} W.", this.name, this.powerIn, this.inputLine.GetNameLine(), this.powerDemand, this.powerDifference);
 
             }
-            else if (this.powerIn < this.powerDemand)
+            else if (this.powerIn <= this.powerDemand)
             {
+                this.powerDifference = 0;
                 this.ErrorMessage = String.Format("Le noeud de distribution {0} reçoit {1} W de la lignes {2} alors qu'il a une demande de {3} W. Ce n'est pas assez, il manque {4} W.", this.name, this.powerIn, this.inputLine.GetNameLine(), this.powerDemand, this.powerDifference);
 
             }
-            double powerToGive = powerIn;
+            double powerToGive = this.powerIn;
             foreach (Line outputLine in outputLines)
-            {               
-                if (powerToGive > 0)//il reste du courant a donner
+            {   
+                if(this.powerIn == 0)
                 {
-                    if (outputLine.GetLigneDissipatrice()) //si c'est une ligne dissipatrice
-                    {
-                        outputLine.SetCurrentPower(powerDifference);
-                        powerToGive -= this.powerDifference;
-                    }
-                    else
+                    outputLine.SetCurrentPower(0);
+                }
+                else if (powerToGive <= 0)
+                {
+                    outputLine.SetCurrentPower(0);
+                    powerToGive = 0;
+                }
+                else if (this.powerIn < this.powerDemand)//Il y a trop de demande part rappot à l'offre
+                {
+                    if (powerToGive > 0 && powerToGive>=outputLine.GetDemandPower())
                     {
                         outputLine.SetCurrentPower(outputLine.GetDemandPower());
                         powerToGive -= outputLine.GetDemandPower();
+                        if (powerToGive <= 0)
+                        {
+                            powerToGive = 0;
+                        }
+                    }
+                    else
+                    {
+                        outputLine.SetCurrentPower(powerToGive);
+                        powerToGive = 0;
+                    }
+                    
+                }
+                else//SI il y a assez d'offre pour la demande
+                {
+                    if (outputLine.GetLigneDissipatrice()) //si c'est une ligne dissipatrice
+                    {
+                        if (powerToGive > 0)
+                        {
+                            double powerdif = this.powerIn - this.powerDemand;//d'office positif puisque powerIn > powerDemand
+                            outputLine.SetCurrentPower(powerdif);
+                            powerToGive -= powerdif;
+                            if (powerToGive <= 0)
+                            {
+                                powerToGive += powerdif;
+                                outputLine.SetCurrentPower(powerToGive);
+                                powerToGive = 0;
+                            }
+                        }
+                        else
+                        {
+                            outputLine.SetCurrentPower(0);
+                        }
+                    }
+
+                    else if (powerToGive >= outputLine.GetDemandPower() && !(outputLine.GetLigneDissipatrice()))//donc n'est pas dissipatrice et reste assez de power to give pour la demande
+                    {
+                        outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                        powerToGive -= outputLine.GetDemandPower();     
+                    }
+                    else if(!(outputLine.GetLigneDissipatrice()))
+                    {
+                        if (powerToGive <= 0)
+                        {
+                            powerToGive = 0;
+                        }
+                        outputLine.SetCurrentPower(powerToGive);
+                        powerToGive=0;
+                    }
+                }
+            }
+        }
+
+        public void UpdatePowerOut1()//******************************Le chercheur va devoir modifier cette fonction pour que le noeud distribue le courant comme il veut 
+        {
+            UpdatePowerIn();
+            this.ErrorMessage = "";
+            if (this.powerIn > this.powerDemand)
+            {
+                this.powerDifference = this.powerIn - this.powerDemand;
+                this.ErrorMessage = String.Format("Le noeud de distribution {0} reçoit {1} W de la lignes {2} alors qu'il a une demande de {3} W. C'est trop de {4} W.", this.name, this.powerIn, this.inputLine.GetNameLine(), this.powerDemand, this.powerDifference);
+
+            }
+            else if (this.powerIn <= this.powerDemand)
+            {
+                this.powerDifference = 0;
+                this.ErrorMessage = String.Format("Le noeud de distribution {0} reçoit {1} W de la lignes {2} alors qu'il a une demande de {3} W. Ce n'est pas assez, il manque {4} W.", this.name, this.powerIn, this.inputLine.GetNameLine(), this.powerDemand, this.powerDifference);
+
+            }
+            double powerToGive = this.powerIn;
+            foreach (Line outputLine in outputLines)
+            {
+                if (this.powerIn == 0)
+                {
+                    outputLine.SetCurrentPower(0);
+                }
+                else if (powerToGive > 0)//il reste du courant a donner
+                {
+                    outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                    powerToGive -= outputLine.GetDemandPower();
+                }
+            }
+            if (powerToGive > 0)
+            {
+                powerToGive = this.powerIn;
+                foreach (Line outputLine in outputLines)
+                {
+                    if (powerToGive > 0)//il reste du courant a donner
+                    {
+                        if (outputLine.GetLigneDissipatrice()) //si c'est une ligne dissipatrice
+                        {
+                            if (this.powerDifference > 0)//si il y a plus de powerIn que de demande
+                            {
+                                outputLine.SetCurrentPower(this.powerDifference);
+                                powerToGive -= this.powerDifference;
+                            }
+                            else
+                            {
+                                outputLine.SetCurrentPower(0);
+                            }
+                        }
+                        else
+                        {
+                            if (powerToGive >= outputLine.GetDemandPower())
+                            {
+                                outputLine.SetCurrentPower(outputLine.GetDemandPower());
+                                powerToGive -= outputLine.GetDemandPower();
+                            }
+                            else
+                            {
+                                outputLine.SetCurrentPower(powerToGive);
+                                powerToGive = 0;
+                            }
+                        }
                     }
                 }
             }
