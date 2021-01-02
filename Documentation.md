@@ -89,7 +89,7 @@ Une fois le réseau créé, l’interface présente plusieurs options :
 
 [Lien du diagramme en PDF](https://ecambxl-my.sharepoint.com/:b:/g/personal/20264_ecam_be/EUXBMXejP2FOldbTwKr1drUBC9rG8QjO_ON92IITiPlwzQ?e=1HEJIX)
 
-# Diagramme de séquence
+# Diagramme de séquence pour la fonction `show()`
 ![](https://github.com/SarahLiettefti/ProjetPOO2020/blob/master/diagramme_sequence.png)
 
 [Lien du diagramme en PDF](https://ecambxl-my.sharepoint.com/:b:/g/personal/20264_ecam_be/EQi2EI4PxcdPtamfBd5ATCIBZ1HfNy4pQytlFzJD6xuASg?e=7JiJOx)
