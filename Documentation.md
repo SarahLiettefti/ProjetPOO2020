@@ -83,3 +83,13 @@ Une fois le réseau créé, l’interface présente plusieurs options :
 * `d - d ́emarrer un producteur` : permet de démarrer un producteur ayant été arrêté auparavant. Il est à noté que les centrales électriques démarrent pas instantanément.
 * `v - modification de production` : permet de changer le coefficient de production d’un producteur. Cependant il n’est pas possible de changer la production des centrales nucléaires, des panneaux solaires ainsi que des parcs éoliens.
 * `s - stop simulation` : sortir de l’interface et arrêter la simulation du réseau électrique.
+
+# Diagramme de classe
+![](https://github.com/SarahLiettefti/ProjetPOO2020/blob/master/diagramme_classe.png)
+
+[Lien du diagramme en PDF](https://ecambxl-my.sharepoint.com/:b:/g/personal/20264_ecam_be/EUXBMXejP2FOldbTwKr1drUBC9rG8QjO_ON92IITiPlwzQ?e=1HEJIX)
+
+# Diagramme de séquence
+![](https://github.com/SarahLiettefti/ProjetPOO2020/blob/master/diagramme_sequence.png)
+
+[Lien du diagramme en PDF](https://ecambxl-my.sharepoint.com/:b:/g/personal/20264_ecam_be/EQi2EI4PxcdPtamfBd5ATCIBZ1HfNy4pQytlFzJD6xuASg?e=7JiJOx)
